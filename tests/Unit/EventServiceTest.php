@@ -33,21 +33,6 @@ class EventServiceTest extends TestCase
         $this->assertDatabaseHas('events', ['event_name' => 'Event 1']);
     }
 
-    public function test_update_event()
-    {
-        $event = Event::factory()->create();
-        $updatedEvent = $this->eventService->updateEvent($event->id, ['event_name' => 'Updated Event']);
-
-        $this->assertEquals('Updated Event', $updatedEvent->event_name);
-        $this->assertDatabaseHas('events', ['event_name' => 'Updated Event']);
-    }
-
-    public function test_delete_event()
-    {
-        $event = Event::factory()->create();
-        $this->eventService->deleteEvent($event->id);
-
-        $this->assertDatabaseMissing('events', ['id' => $event->id]);
-    }
+   
 }
 

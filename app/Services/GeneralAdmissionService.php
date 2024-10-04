@@ -7,7 +7,7 @@ use App\Models\Ticket;
 
 class GeneralAdmissionService
 {
-    public function createTicket(array $data)
+    public function createTicket( $data)
     {
         $generalTicket = GeneralAdmissionTicket::create([
             'seat_preference' => $data['seat_preference']

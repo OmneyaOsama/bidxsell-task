@@ -64,3 +64,120 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+//BidXSell - README
+## Table of Contents
+1. [Setup Instructions](#setup-instructions)
+   - [Install Dependencies](#install-dependencies)
+   - [Set Up the Database](#set-up-the-database)
+2. [Running the Application](#running-the-application)
+   - [Start the Server](#start-the-server)
+   - [Base URL and Port Information](#base-url-and-port-information)
+3. [Running Tests](#running-tests)
+4. [Other Instructions](#other-instructions)
+5. [Assumptions and Decisions](#assumptions-and-decisions)
+   - [Scalability and Extensibility](#scalability-and-extensibility)
+
+## Setup Instructions
+
+### Install Dependencies
+1. Ensure you have **PHP** (version 8.x or later) and **Composer** installed.
+2. Clone the repository:
+    ```bash
+    git clone <repository-url>
+    cd bidxsell-task
+    ```
+3. Install the project dependencies via **Composer**:
+    ```bash
+    composer install
+    ```
+4. Copy the `.env.example` to create a new `.env` file:
+    ```bash
+    cp .env.example .env
+    ```
+5. Generate an application key:
+    ```bash
+    php artisan key:generate
+    ```
+
+### Set Up the Database
+1. In the `.env` file, configure your database connection details:
+    ```env
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=ticketing_system
+    DB_USERNAME=root
+    DB_PASSWORD=
+    ```
+2. Run the migrations to create the necessary database tables:
+    ```bash
+    php artisan migrate
+    ```
+
+
+## Running the Application
+
+### Start the Server
+To start the Laravel development server, run the following command:
+```bash
+php artisan serve
+
+
+### Base URL and Port Information
+
+Once the server starts, you can access the application using the following base URL:
+http://localhost:8000
+
+####  to run the tests ----------
+php artisan test
+
+### Other Instructions
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.elasticemail.com
+MAIL_PORT=2525
+MAIL_USERNAME="omneyaosama99@gmail.com"
+MAIL_PASSWORD="D47215CC2AA8559F60A05F5729547DC5EFF6"
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS="omneyaosama99@gmail.com"
+MAIL_FROM_NAME="${APP_NAME}"
+
+-------Set up the scheduled task by running the following command to start the scheduler:
+php artisan schedule:work
+
+----------To manually trigger the email reminder task for testing, run:
+php artisan send:reminder-emails
+
+
+### Assumptions and Decisions
+Design Decisions
+1-Event_Ticket Relationship:
+
+-The system uses a polymorphic relationship to handle different ticket categories (e.g., General Admission, VIP, Group Booking).
+-This approach ensures scalability, as new ticket types can easily be added without modifying the core logic of the ticketing system.
+2 -Email_Notifications:
+
+-The email notification system is designed to send reminders to customers 6 hours before the event starts.
+-This functionality is implemented via a scheduled task that runs every hour to check for events happening within the next 6 hours.
+Assumptions
+1-Event Timing:
+
+It is assumed that the system's server and the event time are in the same time zone. If different time zones are required, additional configuration will be needed to handle this properly.
+
+2-Ticket Category Polymorphism:
+
+Each ticket type (General, VIP, Group) has its own specific attributes (e.g., seat_preference, backstage_access).
+These attributes are dynamically handled using polymorphic relationships to ensure flexibility and maintainability.
+
+
+### Scalability and Extensibility
+
+- To ensure scalability and extensibility, the following design patterns and architectural principles were applied:
+        -Service Container and Singleton Pattern: Singleton services, like the email service, ensure that resources are shared efficiently throughout the system, avoiding unnecessary instantiation of services such as email providers or logging mechanisms.
+
+         -Polymorphic Relationships: The polymorphic relationship allows for easy extension of the system, making it simple to introduce new ticket types without impacting existing functionality.
+
+         -Use of the Command Pattern: The scheduled task for sending email reminders utilizes the command pattern, promoting separation of concerns and enhancing maintainability.
+
+         -Dependency Injection: Laravel's Service Container is leveraged to handle dependencies, allowing new services to be registered and injected where needed without modifying existing code.

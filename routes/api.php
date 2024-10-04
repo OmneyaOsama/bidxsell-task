@@ -33,8 +33,6 @@ Route::prefix('problems')->group(function () {
 
 
 Route::get('/events', [EventController::class, 'index']);
-Route::get('/events/{id}', [EventController::class, 'show']);
+Route::get('/events/show', [EventController::class, 'show']);
 Route::post('/events/store', [EventController::class, 'store']);
-Route::put('/events/update/{id}', [EventController::class, 'update']);
-Route::delete('/events/delete/{id}', [EventController::class, 'destroy']);
 Route::post('/tickets', [TicketController::class, 'store']);

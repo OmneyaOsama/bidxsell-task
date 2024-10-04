@@ -13,6 +13,8 @@ class EventResource extends JsonResource
             'event_date_time' => $this->event_date_time,
             'ticket_price' => $this->ticket_price,
             'venue' => $this->venue,
+            'tickets' => TicketResource::collection($this->whenLoaded('tickets')),
+
         ];
     }
 }

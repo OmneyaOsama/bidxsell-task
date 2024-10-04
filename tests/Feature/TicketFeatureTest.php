@@ -104,11 +104,14 @@ class TicketFeatureTest extends TestCase
             'category' => 'Invalid',
         ]);
 
-        $response->assertStatus(400)
-                 ->assertJson([
-                     'success' => false,
-                     'message' => 'Invalid category provided.',
-                 ]);
-    }
-}
+        $response->assertStatus(422)
+        ->assertJson([
+            'message' => 'The selected category is invalid.',
+            'errors' => [
+                'category' => [
+                    'The selected category is invalid.',
+                ],
+            ],
+        ]);
+}}
 

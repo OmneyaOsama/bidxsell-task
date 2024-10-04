@@ -21,23 +21,7 @@ class EventTest extends TestCase
         $this->assertDatabaseHas('events', ['event_name' => 'Sample Event']);
     }
 
-    public function test_event_can_be_updated()
-    {
-        $event = Event::factory()->create();
+   
 
-        $event->update([
-            'event_name' => 'Updated Event',
-            'ticket_price' => 200,
-        ]);
 
-        $this->assertDatabaseHas('events', ['event_name' => 'Updated Event', 'ticket_price' => 200]);
-    }
-
-    public function test_event_can_be_deleted()
-    {
-        $event = Event::factory()->create();
-        $event->delete();
-
-        $this->assertDatabaseMissing('events', ['id' => $event->id]);
-    }
 }

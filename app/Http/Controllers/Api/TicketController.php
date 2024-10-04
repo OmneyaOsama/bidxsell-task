@@ -21,7 +21,6 @@ class TicketController extends Controller
             'category' => 'required|in:General,VIP,Group',
             'event_id' => 'required|exists:events,id',
         ]);
-        // $data = $request->all();
         switch ($request->input('category')) {
             case 'General':
                 return $this->handleGeneralAdmission(new GeneralAdmissionRequest($request->all()));
@@ -39,21 +38,21 @@ class TicketController extends Controller
 
     protected function handleGeneralAdmission(GeneralAdmissionRequest $request)
     {
-        $ticket = GeneralAdmissionFacade::createTicket($request->validated());
+        $ticket = GeneralAdmissionFacade::createTicket($request);
 
         return ApiResponseFormate::success(new TicketResource($ticket), 'General Admission ticket purchased successfully.', 201);
     }
 
     protected function handleVipAdmission(VipAdmissionRequest $request)
     {
-        $ticket = VipAdmissionFacade::createTicket($request->validated());
+        $ticket = VipAdmissionFacade::createTicket($request);
 
         return ApiResponseFormate::success(new TicketResource($ticket), 'VIP Admission ticket purchased successfully.', 201);
     }
 
     protected function handleGroupBooking(GroupBookingRequest $request)
     {
-        $ticket = GroupBookingFacade::createTicket($request->validated());
+        $ticket = GroupBookingFacade::createTicket($request);
 
         return ApiResponseFormate::success(new TicketResource($ticket), 'Group Booking ticket purchased successfully.', 201);
     }

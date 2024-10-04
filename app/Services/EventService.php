@@ -7,12 +7,12 @@ class EventService
 {
     public function getAllEvents()
     {
-        return Event::all();
+        return Event::with('tickets.category')->get();
     }
 
     public function getEventById($id)
     {
-        return Event::findOrFail($id);
+        return Event::with('tickets.category')->findOrFail($id);
     }
 
     public function createEvent($data)
@@ -20,17 +20,5 @@ class EventService
         return Event::create($data);
     }
 
-    public function updateEvent($id, $data)
-    {
-        $event = Event::findOrFail($id);
-        $event->update($data);
-        return $event;
-    }
-
-    public function deleteEvent($id)
-    {
-        $event = Event::findOrFail($id);
-        $event->delete();
-        return $event;
-    }
+   
 }

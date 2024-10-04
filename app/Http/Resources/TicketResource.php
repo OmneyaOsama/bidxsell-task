@@ -7,35 +7,36 @@ class TicketResource extends JsonResource
 {
     public function toArray($request)
     {
-        $categoryDetails = [];
-
-        if ($this->category_type === 'App\Models\GeneralAdmissionTicket') {
-            $categoryDetails = [
-                'seat_preference' => $this->category->seat_preference,
-            ];
-        }
-
-        if ($this->category_type === 'App\Models\VipAdmissionTicket') {
-            $categoryDetails = [
-                'backstage_access' => $this->category->backstage_access,
-                'complimentary_drinks' => $this->category->complimentary_drinks,
-            ];
-        }
-
-        if ($this->category_type === 'App\Models\GroupBookingTicket') {
-            $categoryDetails = [
-                'group_name' => $this->category->group_name,
-                'special_requests' => $this->category->special_requests,
-            ];
-        }
-
-        return [
+        $ticket = [
             'id' => $this->id,
             'customer_name' => $this->customer_name,
             'customer_email' => $this->customer_email,
             'number_of_tickets' => $this->number_of_tickets,
-            'category' => $this->category_type,
-            'category_details' => $categoryDetails, // Category-specific details
+            'category_type' => class_basename($this->category_type),
         ];
+
+        switch ($this->category_type) {
+            case 'App\Models\GeneralAdmissionTicket':
+                $ticket['category_details'] = [
+                    'seat_preference' => $this->category->seat_preference,
+                ];
+                break;
+
+            case 'App\Models\VipAdmissionTicket':
+                $ticket['category_details'] = [
+                    'backstage_access' => $this->category->backstage_access,
+                    'complimentary_drinks' => $this->category->complimentary_drinks,
+                ];
+                break;
+
+            case 'App\Models\GroupBookingTicket':
+                $ticket['category_details'] = [
+                    'group_name' => $this->category->group_name,
+                    'special_requests' => $this->category->special_requests,
+                ];
+                break;
+        }
+
+        return $ticket;
     }
 }
